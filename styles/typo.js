@@ -10,7 +10,7 @@ const typoStyle = StyleSheet.create({
     fontSize: 60
   },
   h3: {
-    fontFamily: 'Eczcar',
+    fontFamily: 'Eczar',
     fontSize: 48
   },
   h4: {
@@ -34,7 +34,7 @@ const typoStyle = StyleSheet.create({
     fontSize: 14
   },
   body1: {
-    fontFamily: 'Eczcar',
+    fontFamily: 'Eczar',
     fontSize: 16
   },
   body2: {

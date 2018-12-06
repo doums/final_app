@@ -97,9 +97,9 @@ class Login extends Component {
       error,
       isBusy
     } = this.state
-    const textStyle = [ styles.text, typoStyle.body1, { color: theme.onBackground } ]
+    const textStyle = [ styles.text, typoStyle.body2, { color: theme.onBackground } ]
     const errorStyle = [ styles.text, typoStyle.body1, { color: theme.error, marginBottom: 10 } ]
-    const textInputStyle = [ styles.text, typoStyle.body1, styles.textInput, { color: theme.onBackground, borderColor: theme.onBackground } ]
+    const textInputStyle = [ styles.text, typoStyle.body2, styles.textInput, { color: theme.onBackground, borderColor: theme.onBackground } ]
     if (isBusy) return <Spinner/>
     return (
       < View style={[ styles.container, { backgroundColor: theme.background } ]}>
