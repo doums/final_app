@@ -2,7 +2,7 @@ import React from 'react'
 import { FlatList, StyleSheet, Text, View, TouchableNativeFeedback } from 'react-native'
 import withTheme from './withTheme'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import findRouteIcon from '../helpers/findRouteIcon'
+import findTab from '../helpers/findTab'
 import findScreenTitle from '../helpers/findScreenTitle'
 import firebase from 'react-native-firebase'
 import { NavigationActions, withNavigation } from 'react-navigation'
@@ -20,7 +20,7 @@ const DrawerItem = ({ item, activeItem, theme, navigation }) => {
         <View style={[ styles.activeOverlay, { backgroundColor: theme.background } ]}>
           <View style={styles.navigationIcon}>
             <Icon
-              name={findRouteIcon(item.key)}
+              name={findTab(item.key)}
               size={24}
               color={focused ? theme.onBackground : theme.muted}
             />

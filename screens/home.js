@@ -1,35 +1,34 @@
 import React from 'react'
 import {
   StyleSheet,
-  View
+  View,
+  Text
 } from 'react-native'
 import { compose } from 'lodash/fp'
 import withTheme from '../components/withTheme'
-import withActionBar from '../components/withActionBar'
 import withUser from '../components/withUser'
-import MessageInput from '../components/messageInput'
-import Feed from '../components/feed'
+import Button from '../components/button'
 
-const Chat = ({ theme, user, navigation: { navigate } }) => {
-  console.log(user)
+const Home = ({ theme, user, navigation }) => {
   return (
     <View style={[ styles.container, { backgroundColor: theme.background } ]}>
-      <Feed/>
-      <MessageInput/>
+      <Text>hello world</Text>
+      <Button
+        text='Table'
+        onPress={() => navigation.navigate('Table')}
+      />
     </View>
   )}
 
 export default compose(
-  withActionBar,
   withTheme,
   withUser
-)(Chat)
+)(Home)
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-end'
+    flexDirection: 'column'
   },
   text: {
     fontSize: 16,

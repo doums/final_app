@@ -12,16 +12,14 @@ import Button from '../components/button'
 import firebase from 'react-native-firebase'
 import Spinner from '../components/spinner'
 import typoStyle from '../styles/typo'
-import withOrder from '../components/withOrder'
-import withTable from '../components/withTable'
 
 class Login extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      email: '',
+      email: 'toto@toto.toto',
       username: '',
-      password: '',
+      password: 'tototo',
       passwordCheck: '',
       mod: 'login',
       error: '',
@@ -140,7 +138,7 @@ class Login extends Component {
         {mod === 'signUp' &&
         <TextInput
           style={textInputStyle}
-          placeholder='retype password'
+          placeholder='confirm password'
           placeholderTextColor={theme.onBackground}
           onChangeText={passwordCheck => this.setState({ passwordCheck })}
           value={passwordCheck}

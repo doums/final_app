@@ -52,8 +52,7 @@ const typoStyle = StyleSheet.create({
   },
   overline: {
     fontFamily: 'RobotoCondensed-Regular',
-    fontSize: 10,
-    textTransform: 'capitalize'
+    fontSize: 10
   }
 })
 export default typoStyle
