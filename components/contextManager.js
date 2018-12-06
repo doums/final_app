@@ -4,19 +4,19 @@ import {
   StatusBar
 } from 'react-native'
 import ThemeContext, { materialTheme } from '../contexts/themeContext'
-import MenuContext, { menu } from '../contexts/menuContext'
 import OrderContext, { order } from '../contexts/orderContext'
 import UserContext from '../contexts/userContext'
 import RootNavigator from './rootNavigator'
+import TableContext, { table } from '../contexts/tableContext'
 
 class ContextManager extends Component {
   constructor (props) {
     super(props)
     this.state = {
       theme: materialTheme,
-      menu,
       user: null,
-      order
+      order,
+      table
     }
   }
 
@@ -26,8 +26,10 @@ class ContextManager extends Component {
 
   setOrder = order => this.setState({ order })
 
+  setTable = table => this.setState({ table })
+
   render () {
-    const { theme, user, menu } = this.state
+    const { theme, user, table } = this.state
     const themeContextValue = {
       data: theme,
       setTheme: this.setTheme
@@ -36,12 +38,13 @@ class ContextManager extends Component {
       data: user,
       setUser: this.setUser
     }
-    const menuContextValue = {
-      data: menu
-    }
     const orderContextValue = {
       data: order,
       setUser: this.setOrder
+    }
+    const tableContextValue = {
+      data: table,
+      setUser: this.setTable
     }
     return (
       <View style={{ flex: 1, backgroundColor: theme.background }}>
@@ -51,11 +54,11 @@ class ContextManager extends Component {
         />
         <ThemeContext.Provider value={themeContextValue}>
           <UserContext.Provider value={userContextValue}>
-            <MenuContext.Provider value={menuContextValue}>
-              <OrderContext.Provider value={orderContextValue}>
+            <OrderContext.Provider value={orderContextValue}>
+              <TableContext.Provider value={tableContextValue}>
                 <RootNavigator />
-              </OrderContext.Provider>
-            </MenuContext.Provider>
+              </TableContext.Provider>
+            </OrderContext.Provider>
           </UserContext.Provider>
         </ThemeContext.Provider>
       </View>

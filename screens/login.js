@@ -12,6 +12,8 @@ import Button from '../components/button'
 import firebase from 'react-native-firebase'
 import Spinner from '../components/spinner'
 import typoStyle from '../styles/typo'
+import withOrder from '../components/withOrder'
+import withTable from '../components/withTable'
 
 class Login extends Component {
   constructor (props) {

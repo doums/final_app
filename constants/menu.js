@@ -1,6 +1,4 @@
-import React from 'react'
-
-export const menu = [
+export default [
   {
     key: 'fries',
     name: 'French Fries',
@@ -17,6 +15,3 @@ export const menu = [
     price: 2
   }
 ]
-
-const MenuContext = React.createContext(menu)
-export default MenuContext
