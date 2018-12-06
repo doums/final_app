@@ -1,5 +1,5 @@
 import React from 'react'
-import UserContext from '../constants/userContext'
+import UserContext from '../contexts/userContext'
 
 const withUser = WrappedComponent => {
   return props => (

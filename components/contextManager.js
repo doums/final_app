@@ -3,8 +3,10 @@ import {
   View,
   StatusBar
 } from 'react-native'
-import ThemeContext, { materialTheme } from '../constants/themeContext'
-import UserContext from '../constants/userContext'
+import ThemeContext, { materialTheme } from '../contexts/themeContext'
+import MenuContext, { menu } from '../contexts/menuContext'
+import OrderContext, { order } from '../contexts/orderContext'
+import UserContext from '../contexts/userContext'
 import RootNavigator from './rootNavigator'
 
 class ContextManager extends Component {
@@ -12,7 +14,9 @@ class ContextManager extends Component {
     super(props)
     this.state = {
       theme: materialTheme,
-      user: null
+      menu,
+      user: null,
+      order
     }
   }
 
@@ -20,8 +24,10 @@ class ContextManager extends Component {
 
   setUser = user => this.setState({ user })
 
+  setOrder = order => this.setState({ order })
+
   render () {
-    const { theme, user } = this.state
+    const { theme, user, menu } = this.state
     const themeContextValue = {
       data: theme,
       setTheme: this.setTheme
@@ -29,6 +35,13 @@ class ContextManager extends Component {
     const userContextValue = {
       data: user,
       setUser: this.setUser
+    }
+    const menuContextValue = {
+      data: menu
+    }
+    const orderContextValue = {
+      data: order,
+      setUser: this.setOrder
     }
     return (
       <View style={{ flex: 1, backgroundColor: theme.background }}>
@@ -38,7 +51,11 @@ class ContextManager extends Component {
         />
         <ThemeContext.Provider value={themeContextValue}>
           <UserContext.Provider value={userContextValue}>
-            <RootNavigator />
+            <MenuContext.Provider value={menuContextValue}>
+              <OrderContext.Provider value={orderContextValue}>
+                <RootNavigator />
+              </OrderContext.Provider>
+            </MenuContext.Provider>
           </UserContext.Provider>
         </ThemeContext.Provider>
       </View>
