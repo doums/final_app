@@ -13,16 +13,26 @@ import typoStyle from '../styles/typo'
 import withOrder from '../components/withOrder'
 import menu from '../constants/menu'
 import withTable from '../components/withTable'
+import prepStatus from '../constants/prepStatus'
+import withUser from '../components/withUser'
+import firebase from 'react-native-firebase'
 
 const RenderItem = ({ item, order, theme, setOrder }) => {
+  const calcTotal = order => {
+    let total = 0
+    order.content.forEach(foodItem => total += foodItem.quantity * foodItem.price)
+    return total
+  }
+
   const onAdd = item => {
     const currentOrder = { ...order }
     const index = currentOrder.content.findIndex(foodItem => foodItem.key === item.key)
     if (index >= 0) {
       currentOrder.content[index].quantity += 1
     } else {
-      currentOrder.content.push({ ...item,  quantity: 1})
+      currentOrder.content.push({ ...item,  quantity: 1, status: prepStatus.notStatedYet })
     }
+    currentOrder.total = calcTotal(currentOrder)
     setOrder(currentOrder)
   }
 
@@ -34,6 +44,7 @@ const RenderItem = ({ item, order, theme, setOrder }) => {
     } else if (index >= 0) {
       currentOrder.content.splice(index, 1)
     }
+    currentOrder.total = calcTotal(currentOrder)
     setOrder(currentOrder)
   }
 
@@ -68,20 +79,37 @@ const RenderItem = ({ item, order, theme, setOrder }) => {
 
 class Order extends Component {
 
-  onOrder = () => {
-    const { table, navigation: { navigate } } = this.props
-    if (!table.key) return
-    navigate('Order')
+  onCheckOut = async () => {
+    const { table, navigation: { navigate }, order, setOrder, user } = this.props
+    if (!table.key || !order.content || order.checkedOut) return
+    const checkedOrder = { ...order }
+    checkedOrder.checkedOut = true
+    setOrder(checkedOrder)
+    try {
+      await firebase.firestore().collection('orders').add({
+        order: checkedOrder,
+        userId: user.id
+      })
+    } catch (e) {
+      console.log(e.message)
+    } finally {
+      this.setState({ isBusy: false, message: '' })
+    }
+    navigate('Preparation')
   }
 
   render () {
     const { theme, order, setOrder, table, navigation: { navigate } } = this.props
-    console.log(order)
+    console.log(this.props.user)
     if (order.checkedOut) {
       return (
         <View style={[ styles.container, { backgroundColor: theme.background } ]}>
           <View style={[ styles.card, { backgroundColor: theme.surface } ]}>
             <Text>You have already ordered !</Text>
+            <Button
+              text='Prep'
+              onPress={() => navigate('Preparation')}
+            />
           </View>
         </View>
       )
@@ -94,7 +122,6 @@ class Order extends Component {
             <Button
               text='Pick a table'
               onPress={() => navigate('Table')}
-              disable={order.content.length === 0}
             />
           </View>
         </View>
@@ -118,10 +145,14 @@ class Order extends Component {
           />
         </View>
         <View style={[ styles.card, { backgroundColor: theme.surface, marginTop: 5 } ]}>
+          <Text style={[ typoStyle.body2, { color: theme.onSurface } ]}>Total</Text>
+          <Text style={[ typoStyle.h3, { color: theme.onSurface } ]}>{`$${order.total}`}</Text>
+        </View>
+        <View style={[ styles.card, { backgroundColor: theme.surface, marginTop: 5 } ]}>
           <Button
-            text='Valid'
-            onPress={this.onOrder}
-            disable={order.content.length === 0}
+            text='Check Out'
+            onPress={this.onCheckOut}
+            disabled={order.content.length === 0}
           />
         </View>
       </View>
@@ -132,7 +163,8 @@ class Order extends Component {
 export default compose(
   withTheme,
   withOrder,
-  withTable
+  withTable,
+  withUser
 )(Order)
 
 const styles = StyleSheet.create({

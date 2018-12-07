@@ -73,7 +73,7 @@ const Table = props => {
         <Button
           text='Order'
           onPress={onOrder}
-          disable={!table.key}
+          disabled={!table.key}
         />
       </View>
     </View>

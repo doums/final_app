@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import {
   StyleSheet,
   View,
@@ -7,17 +7,25 @@ import {
 import withTheme from '../components/withTheme'
 import Button from '../components/button'
 
-const Home = ({ theme, navigation }) => {
-  return (
-    <View style={[ styles.container, { backgroundColor: theme.background } ]}>
-      <View style={[ styles.card, { backgroundColor: theme.surface } ]}>
-        <Button
-          text={`Let's eat !`}
-          onPress={() => navigation.navigate('Table')}
-        />
+class Home extends Component {
+  componentDidMount () {
+
+  }
+
+  render () {
+    const { theme, navigation } = this.props
+    return (
+      <View style={[ styles.container, { backgroundColor: theme.background } ]}>
+        <View style={[ styles.card, { backgroundColor: theme.surface } ]}>
+          <Button
+            text={`Let's eat !`}
+            onPress={() => navigation.navigate('Table')}
+          />
+        </View>
       </View>
-    </View>
-  )}
+    )
+  }
+}
 
 export default withTheme(Home)
 

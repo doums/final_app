@@ -8,6 +8,7 @@ import OrderContext, { order } from '../contexts/orderContext'
 import UserContext from '../contexts/userContext'
 import RootNavigator from './rootNavigator'
 import TableContext, { table } from '../contexts/tableContext'
+import firebase from 'react-native-firebase'
 
 class ContextManager extends Component {
   constructor (props) {
@@ -29,7 +30,7 @@ class ContextManager extends Component {
   setTable = table => this.setState({ table })
 
   render () {
-    const { theme, user, table } = this.state
+    const { theme, user, table, order } = this.state
     const themeContextValue = {
       data: theme,
       setTheme: this.setTheme

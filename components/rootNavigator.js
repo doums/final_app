@@ -10,7 +10,6 @@ import Order from '../screens/order'
 import Preparation from '../screens/preparation'
 import Settings from '../screens/settings'
 import FoodReady from '../screens/foodReady'
-import CheckOut from '../screens/checkOut'
 import Table from '../screens/table'
 import React, { Component } from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons'
@@ -78,15 +77,6 @@ const HomeNav = createStackNavigator({
   cardShadowEnabled: false
 })
 
-const OrderNav = createStackNavigator({
-  Order,
-  CheckOut
-}, {
-  headerMode: 'none',
-  initialRouteName: 'Order',
-  cardShadowEnabled: false
-})
-
 const PrepNav = createStackNavigator({
   Preparation,
   FoodReady
@@ -98,7 +88,7 @@ const PrepNav = createStackNavigator({
 
 const AuthNavigator = createMaterialTopTabNavigator({
   HomeNav,
-  OrderNav,
+  Order,
   PrepNav,
   Settings
 }, {

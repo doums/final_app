@@ -1,9 +1,10 @@
 import React from 'react'
+import orderStatus from '../constants/orderStatus'
 
 export const order = {
   checkedOut: false,
   content: [],
-  status: null,
+  status: orderStatus.notStatedYet,
   total: 0
 }
 
