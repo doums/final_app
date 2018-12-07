@@ -130,7 +130,7 @@ class Order extends Component {
     return (
       <View style={[ styles.container, { backgroundColor: theme.background } ]}>
         <View style={[ styles.card, { backgroundColor: theme.surface } ]}>
-          <Text>Choose your table</Text>
+          <Text style={[ typoStyle.h4, { color: theme.onSurface } ]}>Menu</Text>
           <FlatList
             data={menu}
             extraData={[ order, order.content ]}
