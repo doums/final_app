@@ -12,13 +12,15 @@ class AuthContextManager extends Component {
     super(props)
     this.state = {
       order,
-      table
+      table,
+      initOrderRT: false
     }
   }
 
   async componentDidUpdate (prevProps) {
     const { user } = this.props
     const { user: prevUser } = prevProps
+    const { initOrderRT } = this.state
     if (!user) return
     if (!prevUser && user) {
       try {
@@ -36,6 +38,10 @@ class AuthContextManager extends Component {
       } catch (e) {
         console.log(e.message)
       }
+      return
+    }
+    if (order.checkedOut && !initOrderRT) {
+
     }
   }
 

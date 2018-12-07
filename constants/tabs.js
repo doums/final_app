@@ -5,12 +5,12 @@ export default [
     icon: 'home'
   },
   {
-    key: 'OrderNav',
+    key: 'Order',
     name: 'Order',
     icon: 'restaurant'
   },
   {
-    key: 'PrepNav',
+    key: 'Preparation',
     name: 'Prep',
     icon: 'timer'
   },

@@ -78,29 +78,38 @@ const RenderItem = ({ item, order, theme, setOrder }) => {
 }
 
 class Order extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      isBusy: false
+    }
+  }
 
   onCheckOut = async () => {
     const { table, navigation: { navigate }, order, setOrder, user } = this.props
-    if (!table.key || !order.content || order.checkedOut) return
+    const { isBusy } = this.state
+    if (!table.key || !order.content || order.checkedOut || isBusy) return
+    this.setState({ isBusy: true })
     const checkedOrder = { ...order }
     checkedOrder.checkedOut = true
-    setOrder(checkedOrder)
     try {
       await firebase.firestore().collection('orders').add({
         order: checkedOrder,
         table: { key: table.key, name: table.name },
         userId: user.id
       })
+      setOrder(checkedOrder)
     } catch (e) {
       console.log(e.message)
     } finally {
-      this.setState({ isBusy: false, message: '' })
+      this.setState({ isBusy: false })
     }
     navigate('Preparation')
   }
 
   render () {
     const { theme, order, setOrder, table, navigation: { navigate } } = this.props
+    const { isBusy } = this.state
     if (order.checkedOut) {
       return (
         <View style={[ styles.container, { backgroundColor: theme.background } ]}>
@@ -152,7 +161,7 @@ class Order extends Component {
           <Button
             text='Check Out'
             onPress={this.onCheckOut}
-            disabled={order.content.length === 0}
+            disabled={Boolean(order.content.length === 0 || isBusy)}
           />
         </View>
       </View>

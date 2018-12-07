@@ -4,10 +4,6 @@ export default function findScreenTitle (routeName) {
       return 'Home'
     case 'Table':
       return 'Table choice'
-    case 'CheckOut':
-      return 'check out'
-    case 'FoodReady':
-      return 'Food ready'
     case 'Order':
       return 'Order'
     case 'Preparation':

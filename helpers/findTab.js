@@ -6,10 +6,8 @@ export default function findTab (routeName) {
     case 'Table':
       return tabs[0]
     case 'Order':
-    case 'CheckOut':
       return tabs[1]
     case 'Preparation':
-    case 'FoodReady':
       return tabs[2]
     case 'Settings':
       return tabs[3]

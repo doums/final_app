@@ -8,7 +8,6 @@ import Home from '../screens/home'
 import Order from '../screens/order'
 import Preparation from '../screens/preparation'
 import Settings from '../screens/settings'
-import FoodReady from '../screens/foodReady'
 import Table from '../screens/table'
 import React, { Component } from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons'
@@ -76,19 +75,10 @@ const HomeNav = createStackNavigator({
   cardShadowEnabled: false
 })
 
-const PrepNav = createStackNavigator({
-  Preparation,
-  FoodReady
-}, {
-  headerMode: 'none',
-  initialRouteName: 'Preparation',
-  cardShadowEnabled: false
-})
-
 const RootNavigator = createMaterialTopTabNavigator({
   HomeNav,
   Order,
-  PrepNav,
+  Preparation,
   Settings
 }, {
   initialRouteName: 'HomeNav',
