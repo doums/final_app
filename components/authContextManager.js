@@ -32,6 +32,7 @@ class AuthContextManager extends Component {
         orders.forEach(doc => {
           const orderData = doc.data()
           if (orderData && ( orderData.order.status !== orderStatus.served )) {
+            console.log('order retrieved')
             this.setState({
               orderId: doc.id,
               order: orderData.order,
@@ -53,10 +54,10 @@ class AuthContextManager extends Component {
   startOrderRT = async () => {
     console.log('init order RT')
     const { orderId } = this.state
-    console.log(orderId)
     const rt = await firebase.firestore().collection('orders').doc(orderId)
     rt.onSnapshot(doc => {
       const orderData = doc.data()
+      console.log('order updated')
       this.setState({
         order: orderData.order,
         table: orderData.table
