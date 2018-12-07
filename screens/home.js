@@ -4,12 +4,10 @@ import {
   View,
   Text
 } from 'react-native'
-import { compose } from 'lodash/fp'
 import withTheme from '../components/withTheme'
-import withUser from '../components/withUser'
 import Button from '../components/button'
 
-const Home = ({ theme, user, navigation }) => {
+const Home = ({ theme, navigation }) => {
   return (
     <View style={[ styles.container, { backgroundColor: theme.background } ]}>
       <View style={[ styles.card, { backgroundColor: theme.surface } ]}>
@@ -21,10 +19,7 @@ const Home = ({ theme, user, navigation }) => {
     </View>
   )}
 
-export default compose(
-  withTheme,
-  withUser
-)(Home)
+export default withTheme(Home)
 
 const styles = StyleSheet.create({
   container: {

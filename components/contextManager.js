@@ -40,11 +40,11 @@ class ContextManager extends Component {
     }
     const orderContextValue = {
       data: order,
-      setUser: this.setOrder
+      setOrder: this.setOrder
     }
     const tableContextValue = {
       data: table,
-      setUser: this.setTable
+      setTable: this.setTable
     }
     return (
       <View style={{ flex: 1, backgroundColor: theme.background }}>
