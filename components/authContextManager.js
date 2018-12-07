@@ -7,7 +7,6 @@ import firebase from 'react-native-firebase'
 import orderStatus from '../constants/orderStatus'
 import Login from '../screens/login'
 
-
 class AuthContextManager extends Component {
   constructor (props) {
     super(props)
