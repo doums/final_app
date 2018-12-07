@@ -1,17 +1,18 @@
 import { StyleSheet, Text, TouchableNativeFeedback, View } from 'react-native'
 import React from 'react'
 import withTheme from './withTheme'
+import typoStyle from '../styles/typo'
 
-const Button = props => (
+const Button = ({ theme, onPress, disabled, text, buttonStyle, textStyle }) => (
   <TouchableNativeFeedback
-    onPress={() => props.onPress()}
-    background={TouchableNativeFeedback.Ripple(props.theme.background, false)}
+    onPress={() => onPress()}
+    background={TouchableNativeFeedback.Ripple(theme.background, false)}
     activeOpacity={0.5}
-    disabled={props.disabled}
+    disabled={disabled}
   >
-    <View style={[ styles.activeOverlay, { backgroundColor: props.theme.primary } ]}>
-      <Text style={[ styles.text, { color: props.theme.onPrimary } ]}>
-        {props.text.toUpperCase()}
+    <View style={[ styles.button, { backgroundColor: theme.surface }, buttonStyle ]}>
+      <Text style={[ typoStyle.button, { color: theme.onSurface }, textStyle ]}>
+        {text.toUpperCase()}
       </Text>
     </View>
   </TouchableNativeFeedback>
@@ -20,20 +21,9 @@ export default withTheme(Button)
 
 const styles = StyleSheet.create({
   button: {
-    marginBottom: 10,
-    alignItems: 'center',
-    padding: 10,
-    minWidth: 200
-  },
-  text: {
-    fontSize: 14,
-    fontFamily: 'Montserrat-Medium'
-  },
-  activeOverlay: {
     alignItems: 'center',
     paddingVertical: 10,
     paddingHorizontal: 10,
-    borderRadius: 1,
-    minWidth: 200
+    borderRadius: 1
   }
 })

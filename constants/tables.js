@@ -1,4 +1,4 @@
-export default [
+const tables = [
   {
     key: 'table_1',
     name: 'Table 1',
@@ -20,3 +20,4 @@ export default [
     available: true
   }
 ]
+export default tables

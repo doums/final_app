@@ -57,11 +57,18 @@ class AuthContextManager extends Component {
     const rt = await firebase.firestore().collection('orders').doc(orderId)
     rt.onSnapshot(doc => {
       const orderData = doc.data()
-      console.log('order updated')
-      this.setState({
-        order: orderData.order,
-        table: orderData.table
-      })
+      if (orderData) {
+        this.setState({
+          order: orderData.order,
+          table: orderData.table
+        })
+      } else {
+        this.setState({
+          order: orderData.order,
+          orderId: null,
+          table: { key: null, name: null }
+        })
+      }
     })
   }
 

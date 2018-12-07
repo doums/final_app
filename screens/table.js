@@ -7,11 +7,11 @@ import {
 } from 'react-native'
 import { compose } from 'lodash/fp'
 import withTheme from '../components/withTheme'
-import Button from '../components/button'
 import withTable from '../components/withTable'
 import tables from '../constants/tables'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import typoStyle from '../styles/typo'
+import Card from '../components/card'
 
 const RenderItem = ({ item, selectedTable, theme, setTable }) => {
   let active = false
@@ -54,28 +54,31 @@ const Table = props => {
   const { theme, table, setTable } = props
   return (
     <View style={[ styles.container, { backgroundColor: theme.background } ]}>
-      <View style={[ styles.card, { backgroundColor: theme.surface } ]}>
-        <Text>Choose your table</Text>
-        <FlatList
-          data={tables}
-          extraData={table}
-          renderItem={({ item }) => (
-            <RenderItem
-              item={item}
-              selectedTable={table}
-              theme={theme}
-              setTable={setTable}
-            />
-          )}
-        />
-      </View>
-      <View style={[ styles.card, { backgroundColor: theme.surface, marginTop: 5 } ]}>
-        <Button
-          text='Order'
-          onPress={onOrder}
-          disabled={!table.key}
-        />
-      </View>
+      <Card
+        title='Pick your table'
+        body={
+          <FlatList
+            data={tables}
+            extraData={table}
+            ItemSeparatorComponent={() => <View style={{ height: 10 }}/>}
+            renderItem={({ item }) => (
+              <RenderItem
+                item={item}
+                selectedTable={table}
+                theme={theme}
+                setTable={setTable}
+              />
+            )}
+          />
+        }
+        topRightButton
+        buttonProps={{
+          text: 'Order',
+          onPress: onOrder,
+          disabled: !table.key,
+          buttonStyle: { paddingVertical: 0 }
+        }}
+      />
     </View>
   )
 }
@@ -88,15 +91,6 @@ export default compose(
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    justifyContent: 'center'
-  },
-  card: {
-    flex: 1,
-    flexGrow: 1,
-    elevation: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     padding: 16
   },
   text: {
@@ -107,10 +101,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexGrow: 1,
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    marginHorizontal: 5,
-    width: 150,
-    marginBottom: 10
+    marginHorizontal: 5
   }
 })

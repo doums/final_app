@@ -1,4 +1,4 @@
-export default [
+const menu = [
   {
     key: 'fries',
     name: 'French Fries',
@@ -15,3 +15,4 @@ export default [
     price: 2
   }
 ]
+export default menu

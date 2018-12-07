@@ -43,8 +43,7 @@ const typoStyle = StyleSheet.create({
   },
   button: {
     fontFamily: 'RobotoCondensed-Bold',
-    fontSize: 14,
-    textTransform: 'capitalize'
+    fontSize: 14
   },
   caption: {
     fontFamily: 'RobotoCondensed-Regular',

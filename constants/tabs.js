@@ -1,4 +1,4 @@
-export default [
+const tabs = [
   {
     key: 'HomeNav',
     name: 'Home',
@@ -20,3 +20,4 @@ export default [
     icon: 'settings'
   }
 ]
+export default tabs

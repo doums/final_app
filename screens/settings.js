@@ -8,7 +8,6 @@ import { compose } from 'lodash/fp'
 import withTheme from '../components/withTheme'
 import withUser from '../components/withUser'
 import firebase from 'react-native-firebase'
-import { NavigationActions } from 'react-navigation'
 import Button from '../components/button'
 
 const Settings = ({ theme, user, navigation, setUser }) => {
