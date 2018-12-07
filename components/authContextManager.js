@@ -17,7 +17,7 @@ class AuthContextManager extends Component {
     }
   }
 
-  async componentDidUpdate (prevProps, prevState) {
+  async componentDidUpdate (prevProps) {
     const { user } = this.props
     const { user: prevUser } = prevProps
     if (!user) return
@@ -29,6 +29,10 @@ class AuthContextManager extends Component {
           .get()
         orders.forEach(doc => {
           const orderData = doc.data()
+          this.setState({
+            order: orderData.order,
+            table: orderData.table
+          })
         })
       } catch (e) {
         console.log(e.message)
