@@ -12,11 +12,13 @@ import Button from '../components/button'
 const Table = ({ theme, user, navigation: { navigate } }) => {
   return (
     <View style={[ styles.container, { backgroundColor: theme.background } ]}>
-      <Text>choose your table</Text>
-      <Button
-        text='Order'
-        onPress={() => navigate('Order')}
-      />
+      <View style={[ styles.card, { backgroundColor: theme.surface } ]}>
+        <Text>choose your table</Text>
+        <Button
+          text='Order'
+          onPress={() => navigate('Order')}
+        />
+      </View>
     </View>
   )}
 
@@ -28,7 +30,14 @@ export default compose(
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column'
+    padding: 16
+  },
+  card: {
+    flex: 1,
+    elevation: 1,
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   text: {
     fontSize: 16,

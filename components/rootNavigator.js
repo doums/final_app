@@ -15,7 +15,9 @@ import Table from '../screens/table'
 import React, { Component } from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import tabs from '../constants/tabs'
-import typoStyle from '../styles/typo'
+import { compose } from 'lodash/fp'
+import withOrder from './withOrder'
+import withTable from './withTable'
 
 const RenderTab = ({ item, activeItem, theme, navigate }) => {
   let active = false
@@ -32,6 +34,11 @@ const RenderTab = ({ item, activeItem, theme, navigate }) => {
   )
 }
 
+const RenderTabWrapper = compose(
+  withOrder,
+  withTable
+)(RenderTab)
+
 class TabBar extends Component {
   render () {
     const { theme, navigation: { state: { index }, navigate } } = this.props
@@ -47,7 +54,7 @@ class TabBar extends Component {
           contentContainerStyle={{ justifyContent: 'space-around', flex: 1 }}
           horizontal={true}
           renderItem={({ item }) => (
-            <RenderTab
+            <RenderTabWrapper
               item={item}
               activeItem={activeTab}
               theme={theme}
