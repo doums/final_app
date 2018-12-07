@@ -28,13 +28,12 @@ class Login extends Component {
   }
 
   componentDidMount () {
-    const { navigation: { replace }, setUser } = this.props
+    const { setUser } = this.props
     this.unsubscribeAuth = firebase.auth().onAuthStateChanged(async user => {
       if (user) {
         try {
           const userPayload = await firebase.firestore().collection('users').doc(user.uid).get()
           setUser({ ... userPayload.data(), id: user.uid })
-          replace('AuthNavigator')
         } catch (e) {
           console.log(e.message)
         }

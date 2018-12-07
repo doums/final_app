@@ -6,12 +6,11 @@ import {
 } from 'react-native'
 import withTheme from '../components/withTheme'
 import Button from '../components/button'
+import { compose } from 'lodash/fp'
+import withOrder from '../components/withOrder'
+import withUser from '../components/withUser'
 
 class Home extends Component {
-  componentDidMount () {
-
-  }
-
   render () {
     const { theme, navigation } = this.props
     return (
@@ -27,7 +26,11 @@ class Home extends Component {
   }
 }
 
-export default withTheme(Home)
+export default compose(
+  withTheme,
+  withOrder,
+  withUser
+)(Home)
 
 const styles = StyleSheet.create({
   container: {

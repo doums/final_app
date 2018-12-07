@@ -88,6 +88,7 @@ class Order extends Component {
     try {
       await firebase.firestore().collection('orders').add({
         order: checkedOrder,
+        table: { key: table.key, name: table.name },
         userId: user.id
       })
     } catch (e) {
@@ -100,7 +101,6 @@ class Order extends Component {
 
   render () {
     const { theme, order, setOrder, table, navigation: { navigate } } = this.props
-    console.log(this.props.user)
     if (order.checkedOut) {
       return (
         <View style={[ styles.container, { backgroundColor: theme.background } ]}>

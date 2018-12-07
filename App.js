@@ -1,10 +1,10 @@
 import React from 'react'
-import ContextManager from './components/contextManager'
+import MainContextManager from './components/mainContextManager'
 import { YellowBox } from 'react-native'
 
 YellowBox.ignoreWarnings(['Require cycle:'])
 
 const App = () => {
-  return <ContextManager />
+  return <MainContextManager />
 }
 export default App

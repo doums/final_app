@@ -11,12 +11,11 @@ import firebase from 'react-native-firebase'
 import { NavigationActions } from 'react-navigation'
 import Button from '../components/button'
 
-const Settings = ({ theme, user, navigation }) => {
+const Settings = ({ theme, user, navigation, setUser }) => {
   const signOut = async () => {
-    console.log(NavigationActions)
     try {
       await firebase.auth().signOut()
-      navigation.reset([NavigationActions.navigate({ routeName: 'Login' })], 0)
+      setUser(null)
     } catch (e) {
       console.log(e.message)
     }

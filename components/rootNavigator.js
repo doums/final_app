@@ -2,7 +2,6 @@ import {
   createMaterialTopTabNavigator,
   createStackNavigator
 } from 'react-navigation'
-import Login from '../screens/login'
 import withTheme from './withTheme'
 import { StyleSheet, View, FlatList, Text } from 'react-native'
 import Home from '../screens/home'
@@ -86,7 +85,7 @@ const PrepNav = createStackNavigator({
   cardShadowEnabled: false
 })
 
-const AuthNavigator = createMaterialTopTabNavigator({
+const RootNavigator = createMaterialTopTabNavigator({
   HomeNav,
   Order,
   PrepNav,
@@ -102,15 +101,6 @@ const AuthNavigator = createMaterialTopTabNavigator({
       height: 0
     }
   }
-})
-
-const RootNavigator = createStackNavigator({
-  Login: Login,
-  AuthNavigator: AuthNavigator
-}, {
-  headerMode: 'none',
-  initialRouteName: 'Login',
-  cardShadowEnabled: false
 })
 
 export default RootNavigator
