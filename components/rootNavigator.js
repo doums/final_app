@@ -46,7 +46,7 @@ class TabBar extends Component {
     return (
       <View style={[styles.container, {backgroundColor: theme.background}]}>
         <View style={styles.titleContainer}>
-          <Text style={[ styles.tabTitle, { fontSize: 16, color: theme.onBackground } ]}>{tabs[index].name.toUpperCase()}</Text>
+          <Text style={[ styles.tabTitle, { fontSize: 16, color: theme.onBackground, marginLeft: 10 } ]}>{tabs[index].name.toUpperCase()}</Text>
         </View>
         <FlatList
           data={tabs}
@@ -74,7 +74,8 @@ const HomeNav = createStackNavigator({
   Table
 }, {
   headerMode: 'none',
-  initialRouteName: 'Home'
+  initialRouteName: 'Home',
+  cardShadowEnabled: false
 })
 
 const OrderNav = createStackNavigator({
@@ -82,7 +83,8 @@ const OrderNav = createStackNavigator({
   CheckOut
 }, {
   headerMode: 'none',
-  initialRouteName: 'Order'
+  initialRouteName: 'Order',
+  cardShadowEnabled: false
 })
 
 const PrepNav = createStackNavigator({
@@ -90,7 +92,8 @@ const PrepNav = createStackNavigator({
   FoodReady
 }, {
   headerMode: 'none',
-  initialRouteName: 'Preparation'
+  initialRouteName: 'Preparation',
+  cardShadowEnabled: false
 })
 
 const AuthNavigator = createMaterialTopTabNavigator({
@@ -116,7 +119,8 @@ const RootNavigator = createStackNavigator({
   AuthNavigator: AuthNavigator
 }, {
   headerMode: 'none',
-  initialRouteName: 'Login'
+  initialRouteName: 'Login',
+  cardShadowEnabled: false
 })
 
 export default RootNavigator

@@ -7,17 +7,19 @@ import {
 import { compose } from 'lodash/fp'
 import withTheme from '../components/withTheme'
 import withUser from '../components/withUser'
+import withTable from '../components/withTable'
 
-const Order = ({ theme, user, navigation: { navigate } }) => {
+const Order = props => {
   return (
-    <View style={[ styles.container, { backgroundColor: theme.background } ]}>
+    <View style={[ styles.container, { backgroundColor: props.theme.background } ]}>
       <Text>Order</Text>
     </View>
   )}
 
 export default compose(
   withTheme,
-  withUser
+  withUser,
+  withTable
 )(Order)
 
 const styles = StyleSheet.create({

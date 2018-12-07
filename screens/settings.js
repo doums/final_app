@@ -24,7 +24,9 @@ const Settings = ({ theme, user, navigation }) => {
 
   return (
     <View style={[ styles.container, { backgroundColor: theme.background } ]}>
-      <Button onPress={signOut} text='Sign Out' />
+      <View style={[ styles.card, { backgroundColor: theme.surface } ]}>
+        <Button onPress={signOut} text='Sign Out' />
+      </View>
     </View>
   )}
 
@@ -36,6 +38,12 @@ export default compose(
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 16
+  },
+  card: {
+    flex: 1,
+    elevation: 1,
+    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center'
   },
