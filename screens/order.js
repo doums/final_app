@@ -86,18 +86,19 @@ class Order extends Component {
   }
 
   onCheckOut = async () => {
-    const { table, navigation: { navigate }, order, setOrder, user } = this.props
+    const { table, navigation: { navigate }, order, setOrder, setOrderId, user } = this.props
     const { isBusy } = this.state
     if (!table.key || !order.content || order.checkedOut || isBusy) return
     this.setState({ isBusy: true })
     const checkedOrder = { ...order }
     checkedOrder.checkedOut = true
     try {
-      await firebase.firestore().collection('orders').add({
+      const orderRef = await firebase.firestore().collection('orders').add({
         order: checkedOrder,
         table: { key: table.key, name: table.name },
         userId: user.id
       })
+      setOrderId(orderRef.id)
       setOrder(checkedOrder)
     } catch (e) {
       console.log(e.message)

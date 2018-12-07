@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import {
   StyleSheet,
   View,
@@ -11,6 +11,7 @@ import Button from '../components/button'
 import typoStyle from '../styles/typo'
 import withOrder from '../components/withOrder'
 import withTable from '../components/withTable'
+import orderStatus from '../constants/orderStatus'
 
 const RenderItem = ({ item, theme }) => {
   return (
@@ -51,10 +52,26 @@ const Preparation = props => {
     )
   }
 
+  let color
+  switch (order.status) {
+    case orderStatus.notStatedYet:
+      color = theme.yellowDark
+      break
+    case orderStatus.inPreparation:
+      color = theme.orangeDark
+      break
+    case orderStatus.ready:
+      color = theme.primary
+      break
+    case orderStatus.served:
+      color = theme.purple
+      break
+  }
+
   return (
     <View style={[ styles.container, { backgroundColor: theme.background } ]}>
       <View style={[ styles.card, { backgroundColor: theme.surface } ]}>
-        <Text style={[ typoStyle.h4, { color: theme.onSurface, marginBottom: 15 } ]}>{order.status}</Text>
+        <Text style={[ typoStyle.h4, { color, marginBottom: 15 } ]}>{order.status}</Text>
         <FlatList
           data={order.content}
           extraData={[ order, order.content ]}
@@ -67,7 +84,10 @@ const Preparation = props => {
             />
           )}
         />
-        <Text style={[ typoStyle.body2, { color: theme.onSurface, alignSelf: 'flex-end' } ]}>{`Total $${order.total}`}</Text>
+        <View style={styles.totalAndTable}>
+          <Text style={[ typoStyle.body2, { color: theme.onSurface } ]}>{`Total $${order.total}`}</Text>
+          <Text style={[ typoStyle.body2, { color: theme.onSurface, marginLeft: 15 } ]}>{table.name}</Text>
+        </View>
       </View>
     </View>
   )
@@ -105,5 +125,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 5,
     marginBottom: 10
+  },
+  totalAndTable: {
+    flex: 1,
+    maxHeight: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'stretch',
+    alignSelf: 'flex-end'
   }
 })

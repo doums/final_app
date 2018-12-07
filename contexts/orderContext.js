@@ -10,7 +10,8 @@ export const order = {
 
 const initOrder = {
   data: order,
-  setOrder: () => {}
+  setOrder: () => {},
+  setOrderId: () => {}
 }
 
 const OrderContext = React.createContext(initOrder)

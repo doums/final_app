@@ -13,39 +13,60 @@ class AuthContextManager extends Component {
     this.state = {
       order,
       table,
-      initOrderRT: false
+      initOrderRT: false,
+      orderId: null
     }
   }
 
   async componentDidUpdate (prevProps) {
     const { user } = this.props
     const { user: prevUser } = prevProps
-    const { initOrderRT } = this.state
+    const { initOrderRT, order } = this.state
     if (!user) return
     if (!prevUser && user) {
       try {
         const orders = await firebase.firestore().collection('orders')
-          .where( 'userId', '==', user.id )
+          .where('userId', '==', user.id)
           .limit(1)
           .get()
         orders.forEach(doc => {
           const orderData = doc.data()
-          this.setState({
-            order: orderData.order,
-            table: orderData.table
-          })
+          if (orderData && ( orderData.order.status !== orderStatus.served )) {
+            this.setState({
+              orderId: doc.id,
+              order: orderData.order,
+              table: orderData.table,
+              initOrderRT: true
+            }, () => this.startOrderRT())
+          }
         })
       } catch (e) {
         console.log(e.message)
       }
-      return
     }
     if (order.checkedOut && !initOrderRT) {
-
+      this.setState({ initOrderRT: true })
+      this.startOrderRT()
     }
   }
 
+  startOrderRT = async () => {
+    console.log('init order RT')
+    const { orderId } = this.state
+    console.log(orderId)
+    const rt = await firebase.firestore().collection('orders').doc(orderId)
+    rt.onSnapshot(doc => {
+      const orderData = doc.data()
+      this.setState({
+        order: orderData.order,
+        table: orderData.table
+      })
+    })
+  }
+
   setOrder = order => this.setState({ order })
+
+  setOrderId = id => this.setState({ orderId: id })
 
   setTable = table => this.setState({ table })
 
@@ -57,7 +78,8 @@ class AuthContextManager extends Component {
     }
     const orderContextValue = {
       data: order,
-      setOrder: this.setOrder
+      setOrder: this.setOrder,
+      setOrderId: this.setOrderId
     }
     const tableContextValue = {
       data: table,
