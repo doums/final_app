@@ -66,7 +66,8 @@ class AuthContextManager extends Component {
         this.setState({
           order: null,
           orderId: null,
-          table: null
+          table: null,
+          initOrderRT: false
         })
       }
     })
