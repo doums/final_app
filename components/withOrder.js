@@ -8,6 +8,7 @@ const withOrder = WrappedComponent => {
         order={value.data}
         setOrder={value.setOrder}
         setOrderId={value.setOrderId}
+        getOrderId={value.getOrderId}
         {...props}
       />}
     </OrderContext.Consumer>

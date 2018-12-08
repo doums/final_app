@@ -54,7 +54,7 @@ const Table = props => {
     if (!table) return
     navigate('Order')
   }
-  if (order && order.checkedOut && order.status !== orderStatus.served) {
+  if (order && order.checkedOut) {
     return (
       <View style={[ styles.container, { backgroundColor: theme.background } ]}>
         <Card

@@ -1,7 +1,7 @@
 import React from 'react'
 import orderStatus from '../constants/orderStatus'
 
-export const order = {
+const order = {
   checkedOut: false,
   content: [],
   status: orderStatus.notStatedYet,
@@ -11,7 +11,8 @@ export const order = {
 const initOrder = {
   data: order,
   setOrder: () => {},
-  setOrderId: () => {}
+  setOrderId: () => {},
+  getOrderId: () => {}
 }
 
 const OrderContext = React.createContext(initOrder)

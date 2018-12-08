@@ -15,10 +15,10 @@ import withTable from '../components/withTable'
 import prepStatus from '../constants/prepStatus'
 import withUser from '../components/withUser'
 import firebase from 'react-native-firebase'
-import { order as defaultOrder } from '../contexts/orderContext'
 import Spinner from '../components/spinner'
 import Card from '../components/card'
 import withWindow from '../components/withWindow'
+import orderStatus from '../constants/orderStatus'
 
 const RenderItem = ({ item, order, theme, setOrder }) => {
   const calcTotal = order => {
@@ -31,7 +31,12 @@ const RenderItem = ({ item, order, theme, setOrder }) => {
   const onAdd = item => {
     let currentOrder
     if (!order) {
-      currentOrder = defaultOrder
+      currentOrder = {
+        checkedOut: false,
+        content: [],
+        status: orderStatus.notStatedYet,
+        total: 0
+      }
     } else {
       currentOrder = { ...order }
     }
@@ -137,7 +142,7 @@ class Order extends Component {
       window: { orientation }
     } = this.props
     const { isBusy } = this.state
-    if (isBusy) return <Spinner />
+    if (isBusy) return <Spinner/>
     if (order && order.checkedOut) {
       return (
         <View style={[ styles.container, { backgroundColor: theme.background } ]}>
@@ -183,7 +188,7 @@ class Order extends Component {
         styles.container,
         { backgroundColor: theme.background,
           flexDirection: orientation === 'landscape' ? 'row' : 'column' } ]}>
-        <View style={{ flex: orientation === 'landscape' ? 3 : 0 }}>
+        <View style={orientation === 'landscape' && { flex: 3 }}>
           <Card
             title='Menu'
             body={

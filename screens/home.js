@@ -12,10 +12,36 @@ import Card from '../components/card'
 import withTable from '../components/withTable'
 import orderStatus from '../constants/orderStatus'
 import ColoredLine from '../components/coloredLine'
+import Spinner from '../components/spinner'
+import firebase from 'react-native-firebase'
+import StarRating from '../components/starRating'
 
 class Home extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      isBusy: false
+    }
+  }
+
+  orderDone = async () => {
+    const { getOrderId } = this.props
+    const { isBusy } = this.state
+    if (isBusy) return
+    this.setState({ isBusy: true })
+    try {
+      await firebase.firestore().collection('orders').doc(getOrderId()).delete()
+    } catch (e) {
+      console.log(e.message)
+    } finally {
+      this.setState({ isBusy: false })
+    }
+  }
+
   render () {
     const { theme, navigation, order, table } = this.props
+    const { isBusy } = this.state
+    if (isBusy) return <Spinner/>
     let card
     if (!order && !table) {
       card = 'table'
@@ -102,10 +128,23 @@ class Home extends Component {
           card === 'served' &&
           <Card
             body={
-              <Text style={[ typoStyle.body2, { color: theme.onSurface } ]}>
-                Enjoy your meal :)
-              </Text>
+              <View>
+                <Text style={[ typoStyle.body2, { color: theme.onSurface } ]}>
+                  Enjoy your meal :)
+                </Text>
+                <Text/>
+                <Text style={[ typoStyle.caption, { color: theme.muted } ]}>
+                  Rate the speed
+                </Text>
+                <StarRating/>
+              </View>
             }
+            bottomButton
+            buttonProps={{
+              text: 'YUP',
+              onPress: this.orderDone,
+              buttonStyle: { paddingVertical: 0 }
+            }}
           />
         }
       </View>

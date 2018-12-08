@@ -4,7 +4,6 @@ import TableContext from '../contexts/tableContext'
 import withUser from './withUser'
 import RootNavigator from './rootNavigator'
 import firebase from 'react-native-firebase'
-import orderStatus from '../constants/orderStatus'
 import Login from '../screens/login'
 
 class AuthContextManager extends Component {
@@ -31,7 +30,7 @@ class AuthContextManager extends Component {
           .get()
         orders.forEach(doc => {
           const orderData = doc.data()
-          if (orderData && ( orderData.order.status !== orderStatus.served )) {
+          if (orderData) {
             console.log('order retrieved')
             this.setState({
               orderId: doc.id,
@@ -81,14 +80,16 @@ class AuthContextManager extends Component {
 
   render () {
     const { user } = this.props
-    const { table, order } = this.state
+    const { table, order, orderId } = this.state
+    console.log(order, table, orderId)
     if (!user) {
       return <Login />
     }
     const orderContextValue = {
       data: order,
       setOrder: this.setOrder,
-      setOrderId: this.setOrderId
+      setOrderId: this.setOrderId,
+      getOrderId: () => orderId
     }
     const tableContextValue = {
       data: table,
