@@ -10,8 +10,9 @@ import withUser from '../components/withUser'
 import firebase from 'react-native-firebase'
 import Card from '../components/card'
 import typoStyle from '../styles/typo'
+import Spinner from '../components/spinner'
 
-const Settings = ({ theme, setUser }) => {
+const Settings = ({ theme, setUser, user }) => {
   const signOut = async () => {
     try {
       await firebase.auth().signOut()
@@ -20,14 +21,20 @@ const Settings = ({ theme, setUser }) => {
       console.log(e.message)
     }
   }
-
+  if (!user) return <Spinner/>
   return (
     <View style={[ styles.container, { backgroundColor: theme.background } ]}>
       <Card
+        title='Profile'
         body={
-          <Text style={[ typoStyle.body2, { color: theme.onSurface } ]}>
-            Profile
-          </Text>
+          <View>
+            <Text style={[ typoStyle.body2, { color: theme.onSurface } ]}>
+              {user.username}
+            </Text>
+            <Text style={[ typoStyle.body2, { color: theme.onSurface } ]}>
+              {user.email}
+            </Text>
+          </View>
         }
         bottomButton
         buttonProps={{
