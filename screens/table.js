@@ -12,6 +12,8 @@ import tables from '../constants/tables'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import typoStyle from '../styles/typo'
 import Card from '../components/card'
+import withOrder from '../components/withOrder'
+import orderStatus from '../constants/orderStatus'
 
 const RenderItem = ({ item, selectedTable, theme, setTable }) => {
   let active = false
@@ -46,12 +48,31 @@ const RenderItem = ({ item, selectedTable, theme, setTable }) => {
 }
 
 const Table = props => {
+  const { theme, table, setTable, order, navigation: { navigate } } = props
   const onOrder = () => {
     const { table, navigation: { navigate } } = props
     if (!table) return
     navigate('Order')
   }
-  const { theme, table, setTable } = props
+  if (order && order.checkedOut && order.status !== orderStatus.served) {
+    return (
+      <View style={[ styles.container, { backgroundColor: theme.background } ]}>
+        <Card
+          body={
+            <Text style={[ typoStyle.body2, { color: theme.onSurface } ]}>
+              Back to home
+            </Text>
+          }
+          bottomButton
+          buttonProps={{
+            text: 'HOME',
+            onPress: () => navigate('Home'),
+            buttonStyle: { paddingVertical: 0 }
+          }}
+        />
+      </View>
+    )
+  }
   return (
     <View style={[ styles.container, { backgroundColor: theme.background } ]}>
       <Card
@@ -85,7 +106,8 @@ const Table = props => {
 
 export default compose(
   withTheme,
-  withTable
+  withTable,
+  withOrder
 )(Table)
 
 const styles = StyleSheet.create({
