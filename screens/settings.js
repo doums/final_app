@@ -8,9 +8,10 @@ import { compose } from 'lodash/fp'
 import withTheme from '../components/withTheme'
 import withUser from '../components/withUser'
 import firebase from 'react-native-firebase'
-import Button from '../components/button'
+import Card from '../components/card'
+import typoStyle from '../styles/typo'
 
-const Settings = ({ theme, user, navigation, setUser }) => {
+const Settings = ({ theme, setUser }) => {
   const signOut = async () => {
     try {
       await firebase.auth().signOut()
@@ -22,9 +23,19 @@ const Settings = ({ theme, user, navigation, setUser }) => {
 
   return (
     <View style={[ styles.container, { backgroundColor: theme.background } ]}>
-      <View style={[ styles.card, { backgroundColor: theme.surface } ]}>
-        <Button onPress={signOut} text='Sign Out' />
-      </View>
+      <Card
+        body={
+          <Text style={[ typoStyle.body2, { color: theme.onSurface } ]}>
+            Profile
+          </Text>
+        }
+        bottomButton
+        buttonProps={{
+          text: 'SIGN OUT',
+          onPress: signOut,
+          buttonStyle: { paddingVertical: 0 }
+        }}
+      />
     </View>
   )}
 

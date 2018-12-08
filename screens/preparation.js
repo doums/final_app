@@ -7,7 +7,6 @@ import {
 } from 'react-native'
 import { compose } from 'lodash/fp'
 import withTheme from '../components/withTheme'
-import Button from '../components/button'
 import typoStyle from '../styles/typo'
 import withOrder from '../components/withOrder'
 import withTable from '../components/withTable'
@@ -43,26 +42,38 @@ const Preparation = props => {
   if (!table) {
     return (
       <View style={[ styles.container, { backgroundColor: theme.background } ]}>
-        <View style={[ styles.card, { backgroundColor: theme.surface } ]}>
-          <Text>Please, choose a table first !</Text>
-          <Button
-            text='Pick a table'
-            onPress={() => navigate('Table')}
-          />
-        </View>
+        <Card
+          body={
+            <Text style={[ typoStyle.body2, { color: theme.onSurface } ]}>
+              First choose a table
+            </Text>
+          }
+          bottomButton
+          buttonProps={{
+            text: 'PICK A TABLE',
+            onPress: () => navigate('Table'),
+            buttonStyle: { paddingVertical: 0 }
+          }}
+        />
       </View>
     )
   }
   if (!order || !order.checkedOut) {
     return (
       <View style={[ styles.container, { backgroundColor: theme.background } ]}>
-        <View style={[ styles.card, { backgroundColor: theme.surface } ]}>
-          <Text>You did not order anything!</Text>
-          <Button
-            text='Order'
-            onPress={() => navigate('Order')}
-          />
-        </View>
+        <Card
+          body={
+            <Text style={[ typoStyle.body2, { color: theme.onSurface } ]}>
+              Compose your meal
+            </Text>
+          }
+          bottomButton
+          buttonProps={{
+            text: 'ORDER',
+            onPress: () => navigate('Order'),
+            buttonStyle: { paddingVertical: 0 }
+          }}
+        />
       </View>
     )
   }

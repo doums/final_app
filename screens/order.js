@@ -134,29 +134,42 @@ class Order extends Component {
     if (order && order.checkedOut) {
       return (
         <View style={[ styles.container, { backgroundColor: theme.background } ]}>
-          <View style={[ styles.card, { backgroundColor: theme.surface } ]}>
-            <Text>You have already ordered !</Text>
-            <Button
-              text='Prep'
-              onPress={() => navigate('Preparation')}
-            />
-          </View>
+          <Card
+            body={
+              <Text style={[ typoStyle.body2, { color: theme.onSurface } ]}>
+                Check your prep
+              </Text>
+            }
+            bottomButton
+            buttonProps={{
+              text: 'PREP',
+              onPress: () => navigate('Preparation'),
+              buttonStyle: { paddingVertical: 0 }
+            }}
+          />
         </View>
       )
     }
     if (!table) {
       return (
         <View style={[ styles.container, { backgroundColor: theme.background } ]}>
-          <View style={[ styles.card, { backgroundColor: theme.surface } ]}>
-            <Text>Please, choose a table first !</Text>
-            <Button
-              text='Pick a table'
-              onPress={() => navigate('Table')}
-            />
-          </View>
+          <Card
+            body={
+              <Text style={[ typoStyle.body2, { color: theme.onSurface } ]}>
+                First choose a table
+              </Text>
+            }
+            bottomButton
+            buttonProps={{
+              text: 'PICK A TABLE',
+              onPress: () => navigate('Table'),
+              buttonStyle: { paddingVertical: 0 }
+            }}
+          />
         </View>
       )
     }
+
     let orderContent
     if (order) orderContent = order.content
     return (
