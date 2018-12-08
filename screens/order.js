@@ -18,6 +18,7 @@ import withUser from '../components/withUser'
 import firebase from 'react-native-firebase'
 import { order as defaultOrder } from '../contexts/orderContext'
 import Spinner from '../components/spinner'
+import Card from '../components/card'
 
 const RenderItem = ({ item, order, theme, setOrder }) => {
   const calcTotal = order => {
@@ -70,21 +71,27 @@ const RenderItem = ({ item, order, theme, setOrder }) => {
 
   return (
     <View style={styles.itemContainer}>
-      <Text style={[ typoStyle.body2, { color: theme.onBackground } ]}>{item.name}</Text>
-      <Text style={[ typoStyle.body2, { color: theme.onBackground } ]}>{item.price}</Text>
-      <Text style={[ typoStyle.body2, { color: theme.onBackground } ]}>{`Quantity: ${findQuantity(item.key)}`}</Text>
-      <Icon
-        name='add'
-        size={24}
-        onPress={() => onAdd(item)}
-        color={theme.onBackground}
-      />
-      <Icon
-        name='remove'
-        size={24}
-        onPress={() => onRemove(item)}
-        color={theme.onBackground}
-      />
+      <View style={styles.itemInfo}>
+        <Text style={[ typoStyle.body2, { color: theme.onBackground } ]}>{item.name}</Text>
+        <Text style={[ typoStyle.body1, { color: theme.muted } ]}>{`$ ${item.price}`}</Text>
+      </View>
+      <Text style={[ typoStyle.body1, { color: theme.onBackground, flex: 1 } ]}>{findQuantity(item.key)}</Text>
+      <View style={{ flex: 1 }}>
+        <Icon
+          name='add'
+          size={24}
+          onPress={() => onAdd(item)}
+          color={theme.onBackground}
+        />
+      </View>
+      <View style={{ flex: 1 }}>
+        <Icon
+          name='remove'
+          size={24}
+          onPress={() => onRemove(item)}
+          color={theme.onBackground}
+        />
+      </View>
     </View>
   )
 }
@@ -154,31 +161,35 @@ class Order extends Component {
     if (order) orderContent = order.content
     return (
       <View style={[ styles.container, { backgroundColor: theme.background } ]}>
-        <View style={[ styles.card, { backgroundColor: theme.surface } ]}>
-          <Text style={[ typoStyle.h4, { color: theme.onSurface } ]}>Menu</Text>
-          <FlatList
-            data={menu}
-            extraData={[ order, orderContent ]}
-            renderItem={({ item }) => (
-              <RenderItem
-                item={item}
-                order={order}
-                theme={theme}
-                setOrder={setOrder}
-              />
-            )}
-          />
-        </View>
-        <View style={[ styles.card, { backgroundColor: theme.surface, marginTop: 5 } ]}>
+        <Card
+          title='Menu'
+          body={
+            <FlatList
+              data={menu}
+              extraData={[ order, orderContent ]}
+              ItemSeparatorComponent={() => <View style={{ height: 10 }}/>}
+              renderItem={({ item }) => (
+                <RenderItem
+                  item={item}
+                  order={order}
+                  theme={theme}
+                  setOrder={setOrder}
+                />
+              )}
+            />
+          }
+          topRightButton
+          buttonProps={{
+            text: 'Check Out',
+            onPress: this.onCheckOut,
+            disabled: Boolean(!order || order.content.length === 0 || isBusy),
+            buttonStyle: { paddingVertical: 0 }
+          }}
+        />
+
+        <View style={[ styles.openSpace, { backgroundColor: theme.background, marginTop: 5 } ]}>
           <Text style={[ typoStyle.body2, { color: theme.onSurface } ]}>Total</Text>
           <Text style={[ typoStyle.h3, { color: theme.onSurface } ]}>{`$${order ? order.total : 0}`}</Text>
-        </View>
-        <View style={[ styles.card, { backgroundColor: theme.surface, marginTop: 5 } ]}>
-          <Button
-            text='Check Out'
-            onPress={this.onCheckOut}
-            disabled={Boolean(!order || order.content.length === 0 || isBusy)}
-          />
         </View>
       </View>
     )
@@ -198,13 +209,11 @@ const styles = StyleSheet.create({
     padding: 16,
     paddingTop: 5
   },
-  card: {
+  openSpace: {
     flex: 1,
     flexGrow: 1,
-    elevation: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    padding: 16
+    alignItems: 'center'
   },
   text: {
     fontSize: 16,
@@ -212,11 +221,13 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     flex: 1,
-    flexGrow: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignItems: 'center',
-    marginHorizontal: 5,
-    marginBottom: 10
+    alignItems: 'flex-start',
+    marginHorizontal: 5
+  },
+  itemInfo: {
+    flex: 3,
+    flexDirection: 'column'
   }
 })
