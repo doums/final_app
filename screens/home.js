@@ -127,7 +127,8 @@ export default compose(
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16
+    padding: 16,
+    paddingTop: 5
   },
   brandContainer: {
     flex: 3,

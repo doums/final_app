@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    justifyContent: 'center'
+    paddingTop: 5
   },
   card: {
     flex: 1,

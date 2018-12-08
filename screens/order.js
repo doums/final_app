@@ -16,7 +16,6 @@ import withTable from '../components/withTable'
 import prepStatus from '../constants/prepStatus'
 import withUser from '../components/withUser'
 import firebase from 'react-native-firebase'
-import orderStatus from '../constants/orderStatus'
 import { order as defaultOrder } from '../contexts/orderContext'
 import Spinner from '../components/spinner'
 
@@ -197,7 +196,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    justifyContent: 'center'
+    paddingTop: 5
   },
   card: {
     flex: 1,
