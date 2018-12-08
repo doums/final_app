@@ -15,7 +15,7 @@ const ColoredLine = ({ theme, order }) => {
     theme.primaryLight,
     theme.teal
   ]
-  if (order) {
+  if (order && order.checkedOut) {
     switch (order.status) {
       case orderStatus.notStatedYet:
         colors = [
