@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import OrderContext, { order } from '../contexts/orderContext'
-import TableContext, { table } from '../contexts/tableContext'
+import OrderContext from '../contexts/orderContext'
+import TableContext from '../contexts/tableContext'
 import withUser from './withUser'
 import RootNavigator from './rootNavigator'
 import firebase from 'react-native-firebase'
@@ -11,8 +11,8 @@ class AuthContextManager extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      order,
-      table,
+      order: null,
+      table: null,
       initOrderRT: false,
       orderId: null
     }
@@ -45,7 +45,7 @@ class AuthContextManager extends Component {
         console.log(e.message)
       }
     }
-    if (order.checkedOut && !initOrderRT) {
+    if (order && order.checkedOut && !initOrderRT) {
       this.setState({ initOrderRT: true })
       this.startOrderRT()
     }
@@ -64,9 +64,9 @@ class AuthContextManager extends Component {
         })
       } else {
         this.setState({
-          order: orderData.order,
+          order: null,
           orderId: null,
-          table: { key: null, name: null }
+          table: null
         })
       }
     })

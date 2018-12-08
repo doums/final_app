@@ -16,16 +16,25 @@ import withTable from '../components/withTable'
 import prepStatus from '../constants/prepStatus'
 import withUser from '../components/withUser'
 import firebase from 'react-native-firebase'
+import orderStatus from '../constants/orderStatus'
+import { order as defaultOrder } from '../contexts/orderContext'
+import Spinner from '../components/spinner'
 
 const RenderItem = ({ item, order, theme, setOrder }) => {
   const calcTotal = order => {
+    if (!order) return 0
     let total = 0
     order.content.forEach(foodItem => total += foodItem.quantity * foodItem.price)
     return total
   }
 
   const onAdd = item => {
-    const currentOrder = { ...order }
+    let currentOrder
+    if (!order) {
+      currentOrder = defaultOrder
+    } else {
+      currentOrder = { ...order }
+    }
     const index = currentOrder.content.findIndex(foodItem => foodItem.key === item.key)
     if (index >= 0) {
       currentOrder.content[index].quantity += 1
@@ -37,7 +46,12 @@ const RenderItem = ({ item, order, theme, setOrder }) => {
   }
 
   const onRemove = () => {
-    const currentOrder = { ...order }
+    let currentOrder
+    if (!order) {
+      currentOrder = defaultOrder
+    } else {
+      currentOrder = { ...order }
+    }
     const index = currentOrder.content.findIndex(foodItem => foodItem.key === item.key)
     if (index >= 0 && currentOrder.content[index].quantity > 1) {
       currentOrder.content[index].quantity -= 1
@@ -48,9 +62,8 @@ const RenderItem = ({ item, order, theme, setOrder }) => {
     setOrder(currentOrder)
   }
 
-  let color = theme.onBackground
-
   const findQuantity = itemKey => {
+    if (!order) return 0
     const index = order.content.findIndex(foodItem => foodItem.key === itemKey)
     if (index >= 0) return order.content[index].quantity
     return 0
@@ -65,13 +78,13 @@ const RenderItem = ({ item, order, theme, setOrder }) => {
         name='add'
         size={24}
         onPress={() => onAdd(item)}
-        color={color}
+        color={theme.onBackground}
       />
       <Icon
         name='remove'
         size={24}
         onPress={() => onRemove(item)}
-        color={color}
+        color={theme.onBackground}
       />
     </View>
   )
@@ -88,7 +101,7 @@ class Order extends Component {
   onCheckOut = async () => {
     const { table, navigation: { navigate }, order, setOrder, setOrderId, user } = this.props
     const { isBusy } = this.state
-    if (!table.key || !order.content || order.checkedOut || isBusy) return
+    if (!table || !order || !order.content || order.checkedOut || isBusy) return
     this.setState({ isBusy: true })
     const checkedOrder = { ...order }
     checkedOrder.checkedOut = true
@@ -111,7 +124,8 @@ class Order extends Component {
   render () {
     const { theme, order, setOrder, table, navigation: { navigate } } = this.props
     const { isBusy } = this.state
-    if (order.checkedOut) {
+    if (isBusy) return <Spinner />
+    if (order && order.checkedOut) {
       return (
         <View style={[ styles.container, { backgroundColor: theme.background } ]}>
           <View style={[ styles.card, { backgroundColor: theme.surface } ]}>
@@ -124,7 +138,7 @@ class Order extends Component {
         </View>
       )
     }
-    if (!table.key) {
+    if (!table) {
       return (
         <View style={[ styles.container, { backgroundColor: theme.background } ]}>
           <View style={[ styles.card, { backgroundColor: theme.surface } ]}>
@@ -137,13 +151,15 @@ class Order extends Component {
         </View>
       )
     }
+    let orderContent
+    if (order) orderContent = order.content
     return (
       <View style={[ styles.container, { backgroundColor: theme.background } ]}>
         <View style={[ styles.card, { backgroundColor: theme.surface } ]}>
           <Text style={[ typoStyle.h4, { color: theme.onSurface } ]}>Menu</Text>
           <FlatList
             data={menu}
-            extraData={[ order, order.content ]}
+            extraData={[ order, orderContent ]}
             renderItem={({ item }) => (
               <RenderItem
                 item={item}
@@ -156,13 +172,13 @@ class Order extends Component {
         </View>
         <View style={[ styles.card, { backgroundColor: theme.surface, marginTop: 5 } ]}>
           <Text style={[ typoStyle.body2, { color: theme.onSurface } ]}>Total</Text>
-          <Text style={[ typoStyle.h3, { color: theme.onSurface } ]}>{`$${order.total}`}</Text>
+          <Text style={[ typoStyle.h3, { color: theme.onSurface } ]}>{`$${order ? order.total : 0}`}</Text>
         </View>
         <View style={[ styles.card, { backgroundColor: theme.surface, marginTop: 5 } ]}>
           <Button
             text='Check Out'
             onPress={this.onCheckOut}
-            disabled={Boolean(order.content.length === 0 || isBusy)}
+            disabled={Boolean(!order || order.content.length === 0 || isBusy)}
           />
         </View>
       </View>

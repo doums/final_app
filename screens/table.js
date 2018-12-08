@@ -15,11 +15,11 @@ import Card from '../components/card'
 
 const RenderItem = ({ item, selectedTable, theme, setTable }) => {
   let active = false
-  if (item.key === selectedTable.key) active = true
+  if (selectedTable && item.key === selectedTable.key) active = true
   const onSelect = () => {
     if (!item.available) return
-    if (item.key === selectedTable.key) {
-      setTable({ key: null, name: null })
+    if (selectedTable && item.key === selectedTable.key) {
+      setTable(null)
     } else {
       setTable(item)
     }
@@ -48,7 +48,7 @@ const RenderItem = ({ item, selectedTable, theme, setTable }) => {
 const Table = props => {
   const onOrder = () => {
     const { table, navigation: { navigate } } = props
-    if (!table.key) return
+    if (!table) return
     navigate('Order')
   }
   const { theme, table, setTable } = props
@@ -75,7 +75,7 @@ const Table = props => {
         buttonProps={{
           text: 'Order',
           onPress: onOrder,
-          disabled: !table.key,
+          disabled: !table,
           buttonStyle: { paddingVertical: 0 }
         }}
       />

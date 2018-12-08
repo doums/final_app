@@ -7,26 +7,31 @@ import {
 import withTheme from '../components/withTheme'
 import { compose } from 'lodash/fp'
 import withOrder from '../components/withOrder'
-import withUser from '../components/withUser'
 import typoStyle from '../styles/typo'
 import Card from '../components/card'
 import withTable from '../components/withTable'
+import orderStatus from '../constants/orderStatus'
 
 class Home extends Component {
   render () {
     const { theme, navigation, order, table } = this.props
     let card
-    if (!order.checkedOut && !table.key) {
+    if (!order && !table) {
       card = 'table'
-    } else if (!order.checkedOut && table.key) {
+    } else if (((order && !order.checkedOut) || !order) && table) {
       card = 'order'
-    } else if (order.checkedOut) {
+    } else if (order && order.checkedOut && order.status !== orderStatus.served && order.status !== orderStatus.ready) {
       card = 'prep'
+    } else if (order && order.checkedOut && order.status === orderStatus.ready) {
+      card = 'ready'
+    } else if (order && order.checkedOut && order.status === orderStatus.served) {
+      card = 'served'
     }
+    console.log(order, table)
     return (
       <View style={[ styles.container, { backgroundColor: theme.background } ]}>
         <View style={styles.brandContainer}>
-          <Text style={[ typoStyle.h3, { color: theme.onBackground, textAlign: 'center' } ]}>FoodMe</Text>
+          <Text style={[ typoStyle.h3, { color: theme.onBackground, textAlign: 'center' } ]}>FastFeed</Text>
           <View style={styles.coloredLineContainer}>
             <View style={[ styles.line, { backgroundColor: theme.primary } ]} />
             <View style={[ styles.line, { backgroundColor: theme.primaryDark } ]} />
@@ -71,7 +76,7 @@ class Home extends Component {
           <Card
             body={
               <Text style={[ typoStyle.body2, { color: theme.onSurface } ]}>
-                Welcome ! Your preparation is in progress
+                Your preparation is in progress
               </Text>
             }
             bottomButton
@@ -80,6 +85,32 @@ class Home extends Component {
               onPress: () => navigation.navigate('Preparation'),
               buttonStyle: { paddingVertical: 0 }
             }}
+          />
+        }
+        {
+          card === 'ready' &&
+          <Card
+            body={
+              <Text style={[ typoStyle.body2, { color: theme.onSurface } ]}>
+                {`Your meal is ready, it will be soon on the ${table.name} :)`}
+              </Text>
+            }
+            bottomButton
+            buttonProps={{
+              text: 'PREP',
+              onPress: () => navigation.navigate('Preparation'),
+              buttonStyle: { paddingVertical: 0 }
+            }}
+          />
+        }
+        {
+          card === 'served' &&
+          <Card
+            body={
+              <Text style={[ typoStyle.body2, { color: theme.onSurface } ]}>
+                Enjoy your meal :)
+              </Text>
+            }
           />
         }
       </View>

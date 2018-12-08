@@ -25,7 +25,7 @@ const RenderItem = ({ item, theme }) => {
 
 const Preparation = props => {
   const { theme, order, setOrder, table, navigation: { navigate } } = props
-  if (!table.key) {
+  if (!table) {
     return (
       <View style={[ styles.container, { backgroundColor: theme.background } ]}>
         <View style={[ styles.card, { backgroundColor: theme.surface } ]}>
@@ -38,7 +38,7 @@ const Preparation = props => {
       </View>
     )
   }
-  if (!order.checkedOut) {
+  if (!order || !order.checkedOut) {
     return (
       <View style={[ styles.container, { backgroundColor: theme.background } ]}>
         <View style={[ styles.card, { backgroundColor: theme.surface } ]}>
