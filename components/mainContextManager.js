@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import {
   View,
-  StatusBar
+  StatusBar,
+  Dimensions
 } from 'react-native'
 import ThemeContext, { materialTheme } from '../contexts/themeContext'
 import UserContext from '../contexts/userContext'
 import AuthContextManager from './authContextManager'
+import WindowContext from '../contexts/windowContext'
 
 
 class MainContextManager extends Component {
@@ -13,8 +15,27 @@ class MainContextManager extends Component {
     super(props)
     this.state = {
       theme: materialTheme,
-      user: null
+      user: null,
+      window: null
     }
+  }
+
+  componentDidMount () {
+    const initWindow = Dimensions.get('window')
+    this.setWindow(initWindow)
+    this.eventListener = Dimensions.addEventListener('change', ({ window }) => {
+      this.setWindow(window)
+    })
+  }
+
+  componentWillUnmount () {
+    Dimensions.removeEventListener('change', this.eventListener)
+  }
+
+  setWindow = window => {
+    let orientation = 'portrait'
+    if (window.width > window.height) orientation = 'landscape'
+    this.setState({ window: { ...window, orientation } })
   }
 
   setTheme = theme => this.setState({ theme })
@@ -22,7 +43,7 @@ class MainContextManager extends Component {
   setUser = user => this.setState({ user })
 
   render () {
-    const { theme, user } = this.state
+    const { theme, user, window } = this.state
     const themeContextValue = {
       data: theme,
       setTheme: this.setTheme
@@ -30,6 +51,9 @@ class MainContextManager extends Component {
     const userContextValue = {
       data: user,
       setUser: this.setUser
+    }
+    const windowContextValue = {
+      data: window
     }
     return (
       <View style={{ flex: 1, backgroundColor: theme.background }}>
@@ -39,7 +63,9 @@ class MainContextManager extends Component {
         />
         <ThemeContext.Provider value={themeContextValue}>
           <UserContext.Provider value={userContextValue}>
-            <AuthContextManager />
+            <WindowContext.Provider value={windowContextValue}>
+              <AuthContextManager />
+            </WindowContext.Provider>
           </UserContext.Provider>
         </ThemeContext.Provider>
       </View>

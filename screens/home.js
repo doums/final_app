@@ -28,7 +28,6 @@ class Home extends Component {
     } else if (order && order.checkedOut && order.status === orderStatus.served) {
       card = 'served'
     }
-    console.log(order, table)
     return (
       <View style={[ styles.container, { backgroundColor: theme.background } ]}>
         <View style={styles.brandContainer}>

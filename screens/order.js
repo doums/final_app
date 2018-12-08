@@ -7,7 +7,6 @@ import {
 } from 'react-native'
 import { compose } from 'lodash/fp'
 import withTheme from '../components/withTheme'
-import Button from '../components/button'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import typoStyle from '../styles/typo'
 import withOrder from '../components/withOrder'
@@ -19,6 +18,7 @@ import firebase from 'react-native-firebase'
 import { order as defaultOrder } from '../contexts/orderContext'
 import Spinner from '../components/spinner'
 import Card from '../components/card'
+import withWindow from '../components/withWindow'
 
 const RenderItem = ({ item, order, theme, setOrder }) => {
   const calcTotal = order => {
@@ -128,7 +128,14 @@ class Order extends Component {
   }
 
   render () {
-    const { theme, order, setOrder, table, navigation: { navigate } } = this.props
+    const {
+      theme,
+      order,
+      setOrder,
+      table,
+      navigation: { navigate },
+      window: { orientation }
+    } = this.props
     const { isBusy } = this.state
     if (isBusy) return <Spinner />
     if (order && order.checkedOut) {
@@ -169,36 +176,40 @@ class Order extends Component {
         </View>
       )
     }
-
     let orderContent
     if (order) orderContent = order.content
     return (
-      <View style={[ styles.container, { backgroundColor: theme.background } ]}>
-        <Card
-          title='Menu'
-          body={
-            <FlatList
-              data={menu}
-              extraData={[ order, orderContent ]}
-              ItemSeparatorComponent={() => <View style={{ height: 10 }}/>}
-              renderItem={({ item }) => (
-                <RenderItem
-                  item={item}
-                  order={order}
-                  theme={theme}
-                  setOrder={setOrder}
-                />
-              )}
-            />
-          }
-          topRightButton
-          buttonProps={{
-            text: 'Check Out',
-            onPress: this.onCheckOut,
-            disabled: Boolean(!order || order.content.length === 0 || isBusy),
-            buttonStyle: { paddingVertical: 0 }
-          }}
-        />
+      <View style={[
+        styles.container,
+        { backgroundColor: theme.background,
+          flexDirection: orientation === 'landscape' ? 'row' : 'column' } ]}>
+        <View style={{ flex: orientation === 'landscape' ? 3 : 0 }}>
+          <Card
+            title='Menu'
+            body={
+              <FlatList
+                data={menu}
+                extraData={[ order, orderContent ]}
+                ItemSeparatorComponent={() => <View style={{ height: 10 }}/>}
+                renderItem={({ item }) => (
+                  <RenderItem
+                    item={item}
+                    order={order}
+                    theme={theme}
+                    setOrder={setOrder}
+                  />
+                )}
+              />
+            }
+            topRightButton
+            buttonProps={{
+              text: 'Check Out',
+              onPress: this.onCheckOut,
+              disabled: Boolean(!order || order.content.length === 0 || isBusy),
+              buttonStyle: { paddingVertical: 0 }
+            }}
+          />
+        </View>
         <View style={[ styles.openSpace, { backgroundColor: theme.background } ]}>
           <Text style={[ typoStyle.body2, { color: theme.onBackground } ]}>Total</Text>
           <Text style={[ typoStyle.h3, { color: theme.onBackground } ]}>{`$${order ? order.total : 0}`}</Text>
@@ -212,7 +223,8 @@ export default compose(
   withTheme,
   withOrder,
   withTable,
-  withUser
+  withUser,
+  withWindow
 )(Order)
 
 const styles = StyleSheet.create({
@@ -223,7 +235,6 @@ const styles = StyleSheet.create({
   },
   openSpace: {
     flex: 1,
-    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center'
   },
