@@ -143,17 +143,21 @@ class Login extends Component {
           value={passwordCheck}
         />
         }
-        <Button
-          text={mod === 'login' ? 'login' : 'sign up'}
-          onPress={mod === 'login' ? this.login : this.signUp}
-          disabled={!this.formIsValid()}
-        />
-        <Text
-          onPress={() => this.setState({ mod: mod === 'login' ? 'signUp' : 'login' })}
-          style={textStyle}
-        >
-          { mod === 'login' ? 'or sign up' : 'or login' }
-        </Text>
+        <View style={styles.buttonWrapper}>
+          <Button
+            text={mod === 'login' ? 'login' : 'sign up'}
+            onPress={mod === 'login' ? this.login : this.signUp}
+            disabled={!this.formIsValid()}
+            buttonStyle={{ backgroundColor: theme.primary, paddingHorizontal: 30 }}
+            textStyle={{ color: theme.onPrimary }}
+          />
+          <Text
+            onPress={() => this.setState({ mod: mod === 'login' ? 'signUp' : 'login' })}
+            style={[ textStyle, { color: theme.muted, marginLeft: 10 } ]}
+          >
+            { mod === 'login' ? 'or sign up' : 'or login' }
+          </Text>
+        </View>
       </View>
     )
   }
@@ -178,5 +182,9 @@ const styles = StyleSheet.create({
     width: 200,
     paddingHorizontal: 20,
     marginBottom: 10
+  },
+  buttonWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center'
   }
 })
