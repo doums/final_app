@@ -13,6 +13,7 @@ import withOrder from '../components/withOrder'
 import withTable from '../components/withTable'
 import orderStatus from '../constants/orderStatus'
 import Card from '../components/card'
+import ColoredLine from '../components/coloredLine'
 
 const RenderItem = ({ item, theme }) => {
   let color
@@ -108,6 +109,7 @@ const Preparation = props => {
           <Text style={[ typoStyle.body2, { color: theme.onBackground } ]}>{table.name}</Text>
           <Text style={[ typoStyle.caption, { color: theme.muted } ]}>{`Total $${order.total}`}</Text>
         </View>
+        <ColoredLine />
       </View>
     </View>
   )
@@ -132,10 +134,7 @@ const styles = StyleSheet.create({
   openSpace: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    borderLeftWidth: 5,
-    marginVertical: 150,
-    padding: 16
+    alignItems: 'center'
   },
   itemContainer: {
     flex: 1,
@@ -147,6 +146,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 3
   },
   orderInfo: {
-    alignSelf: 'flex-start'
+    alignSelf: 'flex-start',
+    marginBottom: 10
   }
 })

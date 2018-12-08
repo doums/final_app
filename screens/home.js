@@ -11,6 +11,7 @@ import typoStyle from '../styles/typo'
 import Card from '../components/card'
 import withTable from '../components/withTable'
 import orderStatus from '../constants/orderStatus'
+import ColoredLine from '../components/coloredLine'
 
 class Home extends Component {
   render () {
@@ -32,12 +33,7 @@ class Home extends Component {
       <View style={[ styles.container, { backgroundColor: theme.background } ]}>
         <View style={styles.brandContainer}>
           <Text style={[ typoStyle.h3, { color: theme.onBackground, textAlign: 'center' } ]}>FastFeed</Text>
-          <View style={styles.coloredLineContainer}>
-            <View style={[ styles.line, { backgroundColor: theme.primary } ]} />
-            <View style={[ styles.line, { backgroundColor: theme.primaryDark } ]} />
-            <View style={[ styles.line, { backgroundColor: theme.primaryLight } ]} />
-            <View style={[ styles.line, { backgroundColor: theme.teal } ]} />
-          </View>
+          <ColoredLine />
         </View>
         {
           card === 'table' &&
