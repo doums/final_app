@@ -186,10 +186,9 @@ class Order extends Component {
             buttonStyle: { paddingVertical: 0 }
           }}
         />
-
-        <View style={[ styles.openSpace, { backgroundColor: theme.background, marginTop: 5 } ]}>
-          <Text style={[ typoStyle.body2, { color: theme.onSurface } ]}>Total</Text>
-          <Text style={[ typoStyle.h3, { color: theme.onSurface } ]}>{`$${order ? order.total : 0}`}</Text>
+        <View style={[ styles.openSpace, { backgroundColor: theme.background } ]}>
+          <Text style={[ typoStyle.body2, { color: theme.onBackground } ]}>Total</Text>
+          <Text style={[ typoStyle.h3, { color: theme.onBackground } ]}>{`$${order ? order.total : 0}`}</Text>
         </View>
       </View>
     )
