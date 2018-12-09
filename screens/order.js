@@ -53,7 +53,12 @@ const RenderItem = ({ item, order, theme, setOrder }) => {
   const onRemove = () => {
     let currentOrder
     if (!order) {
-      currentOrder = defaultOrder
+      currentOrder = {
+        checkedOut: false,
+        content: [],
+        status: orderStatus.notStatedYet,
+        total: 0
+      }
     } else {
       currentOrder = { ...order }
     }
